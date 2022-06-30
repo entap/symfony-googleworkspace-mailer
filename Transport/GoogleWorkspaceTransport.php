@@ -36,28 +36,33 @@ class GoogleWorkspaceTransport extends AbstractTransport
      * @param string $subject Impersonate email address
      * @return \Google_Client
      */
-    protected function createGoogleClient(): \Google_Client
+    protected function createGoogleClient(string $subject): \Google_Client
     {
         $client = new \Google_Client();
         $client->setScopes([\Google_Service_Gmail::GMAIL_SEND]);
         $client->setAuthConfig(config('services.google.credentials'));
+        $client->setSubject($subject);
         return $client;
     }
 
     /**
      * {@inheritDoc}
+     * @throws \ErrorException
      */
     protected function doSend(SentMessage $message): void
     {
         $email = MessageConverter::toEmail($message->getOriginalMessage());
-        $client = $this->createGoogleClient();
-        foreach ($email->getFrom() as $sender) {
-            $client->setSubject($sender->getAddress());
-            $service = new \Google_Service_Gmail($client);
-            $message = new \Google_Service_Gmail_Message();
-            $message->setRaw(base64_encode($email->toString()));
-            $service->users_messages->send($sender->getAddress(), $message);
+
+        $sender = current($email->getFrom());
+        if ($sender === false) {
+            throw new \LogicException('Must specify sender mail address(from)');
         }
+
+        $client = $this->createGoogleClient($sender->getAddress());
+        $service = new \Google_Service_Gmail($client);
+        $message = new \Google_Service_Gmail_Message();
+        $message->setRaw(base64_encode($email->toString()));
+        $service->users_messages->send($sender->getAddress(), $message);
     }
 
     /**
