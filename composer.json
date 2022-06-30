@@ -1,0 +1,6 @@
+{
+  "require": {
+    "google/apiclient": "^2.12",
+    "symfony/mailer": ">=6.0"
+  }
+}
