@@ -1,9 +1,17 @@
 {
   "name": "entap/symfony-googleworkspace-mailer",
+  "type": "symfony-mailer-bridge",
   "description": "symfony mailer driver for google workspace gmail",
+  "homepage": "https://entap.github.com/",
+  "license": "MIT",
   "require": {
     "php": ">=7.4",
     "google/apiclient": "^2.12",
     "symfony/mailer": ">=6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Symfony\\Component\\Mailer\\Bridge\\Google\\": ""
+    }
   }
 }
