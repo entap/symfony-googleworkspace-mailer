@@ -1,5 +1,7 @@
 <?php
 
+namespace Symfony\Component\Mailer\Bridge\Google\Transport;
+
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
