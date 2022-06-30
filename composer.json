@@ -1,5 +1,8 @@
 {
+  "name": "entap/symfony-googleworkspace-mailer",
+  "description": "symfony mailer driver for google workspace gmail",
   "require": {
+    "php": ">=7.4",
     "google/apiclient": "^2.12",
     "symfony/mailer": ">=6.0"
   }
